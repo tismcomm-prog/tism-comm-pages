@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tism Comm Build Flow, Steps 2.5 to 6</title>
+<meta name="description" content="The product build flow from Product Identity to Launch, including the four new prompts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E6EAEE;
+  --card:#FBFCFD;
+  --ink:#0E151C;
+  --ink-2:#3A4653;
+  --ink-3:#77828E;
+  --rule:#C6CDD5;
+  --rule-soft:#DDE2E7;
+  --blue:#1A48CE;
+  --blue-soft:#E4EAFA;
+  --amber:#8A5B06;
+  --amber-soft:#F6EEDD;
+  --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --cond:"IBM Plex Sans Condensed","IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --rail:118px;
+  --gap:34px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink-2);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1020px;margin:0 auto;padding:0 28px}
+
+/* ---------- micro type ---------- */
+.label{
+  font-family:var(--mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.file{
+  font-family:var(--mono);
+  font-size:12.5px;
+  color:var(--ink);
+  background:#EDF0F3;
+  border:1px solid var(--rule-soft);
+  border-radius:3px;
+  padding:1px 6px;
+  white-space:nowrap;
+}
+.tok{
+  font-family:var(--mono);
+  font-size:12.5px;
+  color:var(--blue);
+  background:var(--blue-soft);
+  border-radius:3px;
+  padding:1px 5px;
+  white-space:nowrap;
+}
+
+/* ---------- masthead ---------- */
+.masthead{padding:60px 0 34px}
+.masthead__eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:34px}
+.masthead__eyebrow .bar{height:1px;background:var(--rule);flex:1}
+h1{
+  font-family:var(--cond);
+  font-weight:700;
+  font-size:clamp(44px,8.5vw,88px);
+  line-height:.94;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin:0 0 6px;
+  text-transform:uppercase;
+}
+h1 .thin{color:var(--blue)}
+.masthead__sub{
+  font-family:var(--cond);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-size:clamp(17px,2.6vw,23px);
+  color:var(--ink-3);
+  margin:0 0 30px;
+}
+.standfirst{
+  max-width:640px;
+  font-size:17px;
+  line-height:1.62;
+  color:var(--ink-2);
+  margin:0 0 30px;
+}
+.standfirst strong{color:var(--ink);font-weight:600}
+.meta{
+  display:flex;flex-wrap:wrap;gap:0 26px;
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:12px 0;
+}
+.meta div{display:flex;gap:8px;align-items:baseline}
+.meta span{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+.print-link{
+  margin-left:auto;font-family:var(--mono);font-size:12.5px;
+  color:var(--blue);text-decoration:none;border-bottom:1px solid var(--blue);
+}
+
+/* ---------- flow strip ---------- */
+.map{margin:34px 0 68px}
+.map__rail{
+  display:flex;align-items:stretch;gap:0;
+  border:1px solid var(--rule);
+  background:var(--card);
+  overflow-x:auto;
+}
+.node{
+  flex:1 0 auto;min-width:0;
+  padding:14px 12px 15px;
+  border-right:1px solid var(--rule-soft);
+  text-align:left;
+}
+.node:last-child{border-right:0}
+.node__n{
+  font-family:var(--mono);font-weight:600;font-size:16px;color:var(--ink);
+  display:block;line-height:1.1;
+}
+.node__t{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);display:block;margin-top:5px;white-space:nowrap;
+}
+.node--new{background:var(--blue-soft);border-right-color:#CDD9F5}
+.node--new .node__n{color:var(--blue)}
+.node--new .node__t{color:var(--blue)}
+.node--dim{opacity:.62}
+.map__key{display:flex;gap:22px;margin-top:12px;align-items:center}
+.key{display:flex;align-items:center;gap:7px}
+.key__swatch{width:11px;height:11px;border:1px solid var(--rule)}
+.key__swatch--new{background:var(--blue-soft);border-color:#CDD9F5}
+.key__swatch--old{background:var(--card)}
+
+/* ---------- spine ---------- */
+.spine{position:relative;padding-bottom:20px}
+.spine::before{
+  content:"";position:absolute;left:calc(var(--rail) - 1px);top:8px;bottom:60px;
+  width:1px;background:var(--rule);
+}
+.step{
+  display:grid;grid-template-columns:var(--rail) 1fr;gap:var(--gap);
+  padding:0 0 56px;position:relative;
+}
+.step__rail{position:relative;padding-top:2px}
+.step__rail::after{
+  content:"";position:absolute;right:-1px;top:16px;width:19px;height:1px;background:var(--rule);
+}
+.step--new .step__rail::after{background:var(--blue);height:2px;top:15px}
+.step__n{
+  font-family:var(--cond);font-weight:700;font-size:40px;line-height:.9;
+  letter-spacing:-.02em;color:var(--ink);display:block;
+}
+.step--new .step__n{color:var(--blue)}
+.step--sub .step__n{font-size:28px}
+.step__state{
+  display:inline-block;margin-top:9px;font-family:var(--mono);font-size:9.5px;
+  font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  padding:2px 6px;border:1px solid var(--rule);color:var(--ink-3);background:var(--card);
+}
+.step--new .step__state{border-color:var(--blue);color:#fff;background:var(--blue)}
+.step__body{min-width:0;padding-top:6px}
+.step__head{border-bottom:1px solid var(--ink);padding-bottom:9px;margin-bottom:16px}
+h2{
+  font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.01em;
+  font-size:clamp(24px,3.6vw,32px);line-height:1.05;color:var(--ink);margin:0;
+}
+.step__src{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:7px;display:block;word-break:break-all}
+.lede{font-size:16px;line-height:1.6;color:var(--ink);margin:0 0 20px;max-width:62ch}
+.lede strong{font-weight:600}
+
+/* ---------- anatomy blocks ---------- */
+.block{margin:0 0 18px}
+.block__label{display:block;margin-bottom:7px}
+.list{margin:0;padding:0;list-style:none}
+.list li{
+  position:relative;padding-left:17px;margin-bottom:6px;font-size:14.5px;line-height:1.5;
+}
+.list li::before{
+  content:"";position:absolute;left:0;top:9px;width:7px;height:1px;background:var(--ink-3);
+}
+.list--num{counter-reset:c}
+.list--num li{counter-increment:c;padding-left:26px}
+.list--num li::before{
+  content:counter(c);font-family:var(--mono);font-size:12px;line-height:1.55;color:var(--blue);
+  top:0;left:0;width:auto;height:auto;background:none;font-weight:600;
+}
+.list b{color:var(--ink);font-weight:600}
+
+.out{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  border-left:2px solid var(--ink);padding:9px 0 9px 13px;margin:0 0 18px;
+}
+.out .label{color:var(--ink)}
+.step--new .out{border-left-color:var(--blue)}
+
+.gate{
+  background:var(--amber-soft);border:1px solid #E7D9BC;padding:13px 15px;margin:0 0 4px;
+}
+.gate .label{color:var(--amber)}
+.gate .list li::before{background:var(--amber)}
+.gate .list li{font-size:14px}
+
+.pull{
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  padding:15px 0;margin:20px 0;
+}
+.pull p{
+  font-family:var(--cond);font-weight:600;font-size:19px;line-height:1.32;
+  color:var(--ink);margin:0;text-transform:uppercase;letter-spacing:.005em;
+}
+.pull span{display:block;font-family:var(--sans);font-weight:400;text-transform:none;
+  letter-spacing:0;font-size:14.5px;color:var(--ink-2);margin-top:8px;line-height:1.55}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  font-family:var(--mono);font-size:12px;color:var(--ink-2);
+  background:#EDF0F3;border:1px solid var(--rule-soft);border-radius:3px;padding:2px 7px;
+}
+.chip--banned{color:var(--amber);background:var(--amber-soft);border-color:#E7D9BC;text-decoration:line-through}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:720px){.cols{grid-template-columns:1fr;gap:16px}}
+
+/* ---------- handoff chain ---------- */
+.chain{display:flex;align-items:stretch;gap:0;border:1px solid var(--rule);background:var(--card);margin:6px 0 18px;flex-wrap:wrap}
+.chain__step{flex:1 1 150px;padding:12px 14px;border-right:1px solid var(--rule-soft)}
+.chain__step:last-child{border-right:0}
+.chain__step b{display:block;font-family:var(--mono);font-size:12px;color:var(--ink);margin-bottom:3px}
+.chain__step em{font-style:normal;font-size:13px;color:var(--ink-3);line-height:1.4;display:block}
+
+/* ---------- tree + rules ---------- */
+.section{padding:26px 0 0;border-top:2px solid var(--ink);margin-top:16px}
+.section h3{
+  font-family:var(--cond);font-weight:700;text-transform:uppercase;
+  font-size:26px;line-height:1;color:var(--ink);margin:0 0 6px;
+}
+.section p.intro{margin:0 0 20px;max-width:62ch;font-size:15px}
+pre.tree{
+  font-family:var(--mono);font-size:12.5px;line-height:1.75;color:var(--ink);
+  background:var(--card);border:1px solid var(--rule);padding:20px 22px;overflow-x:auto;margin:0;
+}
+pre.tree b{color:var(--blue);font-weight:500}
+pre.tree i{color:var(--ink-3);font-style:normal}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+@media(max-width:720px){.rules{grid-template-columns:1fr}}
+.rules li{margin-bottom:9px}
+
+footer{margin:60px 0 70px;padding-top:16px;border-top:1px solid var(--rule);
+  display:flex;flex-wrap:wrap;gap:8px 26px}
+footer span{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+
+@media(max-width:820px){
+  .step{grid-template-columns:1fr;gap:10px}
+  .spine::before{display:none}
+  .step__rail{display:flex;align-items:center;gap:12px}
+  .step__rail::after{display:none}
+  .step__n{font-size:32px}
+  .step__state{margin-top:0}
+}
+
+@media print{
+  @page{size:A4;margin:14mm 13mm}
+  :root{--paper:#fff;--card:#fff}
+  body{background:#fff;font-size:10.5pt;line-height:1.45}
+  .wrap{max-width:none;padding:0}
+  .print-link{display:none}
+  .masthead{padding:0 0 18px}
+  h1{font-size:52pt}
+  .masthead__sub{font-size:14pt;margin-bottom:16px}
+  .standfirst{font-size:11.5pt;margin-bottom:16px}
+  .map{margin:22px 0 26px}
+  .map__rail{overflow:visible}
+  .node__t{font-size:7pt}
+  .node__n{font-size:11pt}
+  .step{padding-bottom:24px;grid-template-columns:82px 1fr;gap:22px}
+  .spine::before{display:block;left:81px;bottom:40px}
+  .step__rail{display:block;padding-top:0}
+  .step__rail::after{display:block;top:12px;width:14px}
+  .step--new .step__rail::after{top:11px}
+  .step__state{margin-top:6px;letter-spacing:.06em;padding:2px 4px}
+  .step__head{break-after:avoid;page-break-after:avoid}
+  .block,.gate,.pull,.chain,.out,.cols,.map,pre.tree,.rules{break-inside:avoid;page-break-inside:avoid}
+  .list li{break-inside:avoid;page-break-inside:avoid}
+  .section h3{break-after:avoid;page-break-after:avoid}
+  .node{padding:8px 6px}
+  .node__t{white-space:normal;letter-spacing:.04em;line-height:1.25}
+  .map__key{gap:14px;margin-top:8px}
+  h2{font-size:19pt}
+  .step__n{font-size:22pt}
+  .step--sub .step__n{font-size:16pt}
+  .lede{font-size:11pt;margin-bottom:12px}
+  .list li{font-size:10pt;margin-bottom:3px}
+  .pull p{font-size:13pt}
+  .pull span{font-size:10pt}
+  pre.tree{font-size:9pt;line-height:1.6}
+  footer{margin:26px 0 0}
+  .spine::before{background:var(--rule)}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="masthead__eyebrow">
+    <span class="label">Tism Comm</span><span class="bar"></span><span class="label">Build Flow</span>
+  </div>
+  <h1>Steps <span class="thin">2.5</span> to <span class="thin">6</span></h1>
+  <p class="masthead__sub">Product Identity through Launch</p>
+  <p class="standfirst">Four new prompts slot into the pipeline. They exist so the person running a product through it does not have to make marketing decisions. <strong>The prompts decide. The operator selects.</strong></p>
+  <div class="meta">
+    <div><span class="label">Updated</span><span>15 Aug 2026</span></div>
+    <div><span class="label">New steps</span><span>2.5 &middot; 2.6 &middot; 3L &middot; 4a</span></div>
+    <div><span class="label">Source</span><span>prompts/</span></div>
+    <a class="print-link" href="build-flow.pdf">Download PDF</a>
+  </div>
+</header>
+
+<section class="map">
+  <span class="label" style="display:block;margin-bottom:10px">The whole flow, one line</span>
+  <div class="map__rail">
+    <div class="node node--dim"><span class="node__n">1</span><span class="node__t">Research</span></div>
+    <div class="node node--dim"><span class="node__n">2</span><span class="node__t">Product brain</span></div>
+    <div class="node node--new"><span class="node__n">2.5</span><span class="node__t">Identity</span></div>
+    <div class="node node--new"><span class="node__n">2.6</span><span class="node__t">Claims</span></div>
+    <div class="node"><span class="node__n">3</span><span class="node__t">Product, images</span></div>
+    <div class="node node--new"><span class="node__n">3L</span><span class="node__t">Label</span></div>
+    <div class="node"><span class="node__n">3.5</span><span class="node__t">Store</span></div>
+    <div class="node node--new"><span class="node__n">4a</span><span class="node__t">Angles</span></div>
+    <div class="node"><span class="node__n">4b</span><span class="node__t">Page</span></div>
+    <div class="node"><span class="node__n">5</span><span class="node__t">Ads</span></div>
+    <div class="node"><span class="node__n">6</span><span class="node__t">Launch</span></div>
+  </div>
+  <div class="map__key">
+    <div class="key"><span class="key__swatch key__swatch--new"></span><span class="label">New prompt</span></div>
+    <div class="key"><span class="key__swatch key__swatch--old"></span><span class="label">Existing step, unchanged</span></div>
+    <div class="key"><span class="label">Decimal numbering keeps the old step PDFs valid</span></div>
+  </div>
+</section>
+
+<main class="spine">
+
+<!-- 2.5 -->
+<article class="step step--new" id="s25">
+  <div class="step__rail"><span class="step__n">2.5</span><span class="step__state">New</span></div>
+  <div class="step__body">
+    <div class="step__head">
+      <h2>Product Identity</h2>
+      <span class="step__src">prompts/step-2.5-product-identity.md</span>
+    </div>
+    <p class="lede">Gives the positioning a name, a page title and a label. Runs after the Product Brain and before images. <strong>Nothing downstream can start without it.</strong> You cannot photograph a label that does not exist, and you cannot write a product page without knowing what the product is called.</p>
+
+    <div class="block">
+      <span class="label block__label">Paste in, in this order</span>
+      <ul class="list list--num">
+        <li><span class="file">01-avatars.md</span></li>
+        <li><span class="file">03-solution-landscape.md</span></li>
+        <li><span class="file">05-positioning.md</span></li>
+        <li>The reference listing URL and the supplier listing URL</li>
+        <li>Any product images you already have, including the competitor's</li>
+        <li>The prompt, last</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <span class="label block__label">What it decides, seven sections</span>
+      <ul class="list">
+        <li><b>1. Branding gate.</b> Does this product need a label at all. NO for a finished product with no surface, PARTIAL when someone else's mark has to come off, YES for white label. Everything after depends on the answer.</li>
+        <li><b>2. Regulated label elements.</b> Every legally required element, or a plain statement that it must be confirmed with the supplier. Never a guess.</li>
+        <li><b>3. Product name shortlist.</b> 20 names cut to 5, sitting on our angle rather than the incumbent's, with the 15 cuts shown and their reasons.</li>
+        <li><b>4. Product page titles.</b> 8 USP led titles, outcome first, under 70 characters where possible, never past 100.</li>
+        <li><b>5. Label copy block.</b> The exact front and back text, not a description of it.</li>
+        <li><b>6. Label design brief.</b> Dieline, hierarchy, palette, what must survive a thumbnail, where <span class="tok">[BRAND]</span> sits.</li>
+        <li><b>7. What is still blocking.</b> Every <span class="tok">[SPEC NEEDED]</span>, <span class="tok">[CONFIRM WITH SUPPLIER]</span> and <span class="tok">[CHECK]</span> gathered into one list.</li>
+      </ul>
+    </div>
+
+    <div class="out">
+      <span class="label">Out</span><span class="file">products/&lt;slug&gt;/brain/06-identity.md</span>
+    </div>
+
+    <div class="pull">
+      <p>The name goes on the bottle. The title goes on the store.
+        <span>Two different jobs that keep getting confused. The name has to be short enough to print. The page title is USP led, carries the end state, and can be long. A twelve word USP does not fit on a label.</span></p>
+    </div>
+
+    <div class="gate">
+      <span class="label block__label">Stop and ask</span>
+      <ul class="list">
+        <li>The supplier has no label template or dieline.</li>
+        <li>The product is in a regulated category and the supplier will not confirm requirements in writing.</li>
+        <li>Every good name is taken.</li>
+        <li><span class="file">05-positioning.md</span> contains a blocking verification. Do not name a product around an unconfirmed USP.</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- 2.6 -->
+<article class="step step--new" id="s26">
+  <div class="step__rail"><span class="step__n">2.6</span><span class="step__state">New</span></div>
+  <div class="step__body">
+    <div class="step__head">
+      <h2>Claims Ledger</h2>
+      <span class="step__src">prompts/step-2.6-claims-ledger.md</span>
+    </div>
+    <p class="lede">The one document a copywriter needs in front of them. Built so someone handling twelve products at once can write a page from this page alone, without opening a single brain document. Doctrine: <strong>be aggressive, do not invent.</strong></p>
+
+    <div class="pull">
+      <p>Category purpose is automatic.
+        <span>Knee pads stop knee pain on the job. Gnat spray gets rid of gnats and spider mites. A dust mask keeps dust out of your lungs. That is what the product is, not a hypothesis. Never withhold it, never soften it, never list it as needing evidence. We source products that do the job.</span></p>
+    </div>
+
+    <div class="cols">
+      <div class="block">
+        <span class="label block__label">Paste in</span>
+        <ul class="list list--num">
+          <li>All five brain docs, <span class="file">01</span> to <span class="file">05</span></li>
+          <li><span class="file">06-identity.md</span></li>
+          <li>Product images and the supplier listing</li>
+          <li>The prompt, last</li>
+        </ul>
+      </div>
+      <div class="block">
+        <span class="label block__label">The only real constraint</span>
+        <ul class="list">
+          <li><b>Fabricated evidence.</b> Studies, percentages, certifications, test results, award claims, customer counts that do not exist.</li>
+          <li>It is about invented proof, never about strength of language.</li>
+          <li>The review corpus is a <b>language bank, not a ceiling.</b> A three star review is one person's experience, not a limit.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <span class="label block__label">What it produces, five sections</span>
+      <ul class="list">
+        <li><b>1. Cleared to claim.</b> The big one, in the copywriter's voice, ready to lift. What the product is for, everything it works on, the outcomes, against the alternatives, the mechanism.</li>
+        <li><b>2. Confirm with sourcing.</b> A parallel supplier to-do, one line each, ready to paste into an email. Often empty. <b>Never a gate on building.</b></li>
+        <li><b>3. Off limits.</b> Fabricated evidence, plus genuinely regulated claim types. Nothing else. A category purpose claim never goes here.</li>
+        <li><b>4. Mandatory disclosures.</b> Pulled from <span class="file">06-identity.md</span> section 2. Usually none.</li>
+        <li><b>5. Verbatim bank.</b> The 10 to 15 strongest customer quotes, typos intact, sorted by hooks, pain, transformation, objection handling.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <span class="label block__label">Banned vocabulary, anywhere in the output</span>
+      <div class="chips">
+        <span class="chip chip--banned">may help</span><span class="chip chip--banned">can help</span>
+        <span class="chip chip--banned">designed to</span><span class="chip chip--banned">formulated to</span>
+        <span class="chip chip--banned">intended to</span><span class="chip chip--banned">aims to</span>
+        <span class="chip chip--banned">works to</span><span class="chip chip--banned">can assist</span>
+        <span class="chip chip--banned">supports</span><span class="chip chip--banned">promotes</span>
+        <span class="chip chip--banned">for many users</span><span class="chip chip--banned">results may vary</span>
+        <span class="chip chip--banned">in some cases</span><span class="chip chip--banned">up to</span>
+      </div>
+    </div>
+
+    <div class="out">
+      <span class="label">Out</span><span class="file">products/&lt;slug&gt;/brain/07-claims.md</span><span class="label">One page, two at most</span>
+    </div>
+
+    <div class="gate">
+      <span class="label block__label">The pre-ship check, two questions</span>
+      <ul class="list list--num">
+        <li>Does anything cite a statistic, study, certification or test result that does not exist?</li>
+        <li>Is every legally required disclosure present?</li>
+      </ul>
+      <p style="margin:9px 0 0;font-size:14px">Clean on both, ship it. Strength of language is a creative decision, not a compliance one.</p>
+    </div>
+  </div>
+</article>
+
+<!-- 3 -->
+<article class="step" id="s3">
+  <div class="step__rail"><span class="step__n">3</span><span class="step__state">Exists</span></div>
+  <div class="step__body">
+    <div class="step__head">
+      <h2>Product and Images</h2>
+      <span class="step__src">unchanged, see step PDF #3</span>
+    </div>
+    <p class="lede">Source the product and gather the imagery. One rule bites here every time: <strong>open the source images before using them.</strong> Six of the first seven products arrived carrying somebody else's brand.</p>
+    <div class="out"><span class="label">Out</span><span class="file">products/&lt;slug&gt;/images/</span><span class="file">products/&lt;slug&gt;/label/</span></div>
+  </div>
+</article>
+
+<!-- 3L -->
+<article class="step step--new step--sub" id="s3l">
+  <div class="step__rail"><span class="step__n">3&middot;L</span><span class="step__state">New sub-step</span></div>
+  <div class="step__body">
+    <div class="step__head">
+      <h2>Label Design</h2>
+      <span class="step__src">prompts/step-3-label-design.md</span>
+    </div>
+    <p class="lede">Puts our label on the competitor's product shape. Runs only when <span class="file">06-identity.md</span> section 1 answered YES or PARTIAL. Products with no label surface skip it entirely.</p>
+
+    <div class="pull">
+      <p>The reference image is geometry only.
+        <span>The bottle shape, the cap, the proportions, the lighting. The label area gets replaced, and every trace of the original brand comes off, including the cap, the shoulder, the barcode and any embossing.</span></p>
+    </div>
+
+    <div class="cols">
+      <div class="block">
+        <span class="label block__label">Paste in</span>
+        <ul class="list list--num">
+          <li>The competitor or supplier reference image</li>
+          <li><span class="file">06-identity.md</span> sections 2, 5 and 6</li>
+          <li>The prompt</li>
+        </ul>
+      </div>
+      <div class="block">
+        <span class="label block__label">Guardrails in every generation prompt</span>
+        <ul class="list">
+          <li>Name the real anatomy of the container. Generation models mangle physical products by default.</li>
+          <li>Rule out props from the reference. Fruit and cloths imply claims we did not make.</li>
+          <li>Never ask for small legal text as readable type. Ask for a plain block, typeset it properly later.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <span class="label block__label">Acceptance checklist, run against the result</span>
+      <ul class="list list--num">
+        <li>Is every trace of the original brand gone, including cap, shoulder and barcode?</li>
+        <li>Is the container shape still the real product's shape?</li>
+        <li>Are <span class="tok">[BRAND]</span> and <span class="tok">[PRODUCT]</span> visible as tokens, in the right places, with room for a longer word?</li>
+        <li>Is the front readable shrunk to 200 pixels?</li>
+        <li>Is anything on it a claim we are not entitled to make, checked against <span class="file">07-claims.md</span>?</li>
+      </ul>
+    </div>
+
+    <div class="out">
+      <span class="label">Out</span><span class="file">label/label-on-product.jpg</span><span class="file">label/label-flat.jpg</span><span class="file">label/supplier-link.txt</span>
+    </div>
+    <p style="font-size:14px;margin:2px 0 0">Generate at least four variations before choosing. <span class="tok">[BRAND]</span> stays a visible token until the store is assigned at 3.5, then the same layout is regenerated with the real name. The design work does not repeat. That is the entire reason the token exists.</p>
+  </div>
+</article>
+
+<!-- 3.5 -->
+<article class="step" id="s35">
+  <div class="step__rail"><span class="step__n">3.5</span><span class="step__state">Skill</span></div>
+  <div class="step__body">
+    <div class="step__head">
+      <h2>Store Assignment</h2>
+      <span class="step__src">skills/product-intake</span>
+    </div>
+    <p class="lede">Files a batch of loose product folders into the repo and assigns each one to an umbrella store, then runs the readiness gate. <strong>Do not file products by hand.</strong> This is where <span class="tok">[BRAND]</span> resolves.</p>
+    <div class="block">
+      <span class="label block__label">The rules it enforces</span>
+      <ul class="list">
+        <li>Stores group by <b>buyer, not category.</b> One brand holds two products only if one person buys both.</li>
+        <li>A new store needs both triggers: 3 or more products that do not fit, <b>and</b> one store already profitable.</li>
+      </ul>
+    </div>
+    <div class="out"><span class="label">Out</span><span class="file">products/&lt;slug&gt;/brief.md</span><span class="label">plus the registry row</span></div>
+  </div>
+</article>
+
+<!-- 4a -->
+<article class="step step--new" id="s4a">
+  <div class="step__rail"><span class="step__n">4a</span><span class="step__state">New</span></div>
+  <div class="step__body">
+    <div class="step__head">
+      <h2>Page Angles</h2>
+      <span class="step__src">prompts/step-4a-page-angles.md</span>
+    </div>
+    <p class="lede">Runs after the store is assigned and before anyone opens a template. The first two pages built off this system were not usable out of the box. The copy was not wrong. Roughly fifteen judgement calls per page were made in someone's head and recorded nowhere. <strong>4a moves those calls into a document and hands the operator a menu.</strong></p>
+
+    <div class="pull">
+      <p>Breadth is usually the pitch.
+        <span>The first Electric Scissors page spent all ten reasons on one use case, the recycling bin, for a product with five distinct buyers and six real jobs. Narrow a page on purpose, not by accident.</span></p>
+    </div>
+
+    <div class="cols">
+      <div class="block">
+        <span class="label block__label">Paste in</span>
+        <ul class="list list--num">
+          <li>All brain docs, <span class="file">01</span> to <span class="file">05</span></li>
+          <li><span class="file">07-claims.md</span></li>
+          <li><span class="file">brief.md</span>, which names the store and the offer</li>
+          <li>The prompt, last</li>
+        </ul>
+      </div>
+      <div class="block">
+        <span class="label block__label">Structure of the sheet</span>
+        <ul class="list">
+          <li><b>1. Awareness read</b> and the comparison test</li>
+          <li><b>2. Product-aware angles.</b> 6 to 8 concepts for <span class="file">listicle-1</span></li>
+          <li><b>3. Solution-aware angles.</b> 2 to 4 for <span class="file">listicle-comparison-above-fold</span>, only if substantiated</li>
+          <li><b>4. The default,</b> marked, for an operator who does not want to choose</li>
+          <li><b>5. What to run second</b></li>
+          <li><b>Do not build.</b> Obvious angles the research rules out</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <span class="label block__label">A comparison page is substantiated only when all three are true</span>
+      <ul class="list list--num">
+        <li>Three or more avatars sit at Solution Aware or beyond.</li>
+        <li>The research holds <b>real failure evidence for both competitor columns</b>, not just their marketing claims. A table with an empty failure column is three columns of our own opinion.</li>
+        <li>Choosing between alternatives is the buyer's <b>primary objection</b>. Buyers defecting from a manual method are a defection story, and that is a product-aware listicle.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <span class="label block__label">What every concept carries, because this is what listicle-builder gathers</span>
+      <ul class="list">
+        <li><b>H1</b>, publishable as written, leading with a real number that matches the item count</li>
+        <li><b>The angle</b>, one sentence, the single idea the page argues from headline to close</li>
+        <li><b>The avatar</b>, named, with the line saying what they are actually chasing</li>
+        <li><b>The offer</b>, from <span class="file">brief.md</span>, or <span class="tok">[VERIFY PRICE LIVE]</span> if the price is not set</li>
+        <li><b>Proof available.</b> The specific voice bank quotes to spend, or NONE and the page gets no proof furniture</li>
+        <li><b>Customer phrases</b>, verbatim, three to six</li>
+        <li><b>The item list</b>, 5 to 7, and <b>images needed</b>, flagging any that do not exist</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <span class="label block__label">The item list, the part that gets done badly</span>
+      <ul class="list">
+        <li><b>5 to 7 items, default 6.</b> If only five earn their place, write five. A filler item is visible to the reader.</li>
+        <li><b>The last item is always the guarantee or warranty.</b> Every page, no exceptions. It is the trust element, it sits after the turn, and it counts in the H1's number. A 7 item page is 6 arguments plus the guarantee.</li>
+        <li><b>The headline is a contract, so pay it off explicitly.</b> If the H1 promises "the one they keep it for", one item has to visibly be that one, named as such in its heading.</li>
+        <li><b>Every headline is help-led.</b> It states a job the product does for the buyer. The mechanism is demoted to a kicker underneath.</li>
+        <li><b>Sequence them as an argument.</b> If the order could be shuffled without loss, it is a grab bag.</li>
+        <li><b>The product enters late,</b> straight after the list, as the conclusion the items earned. It is the turn, not an item. The guarantee is the final item.</li>
+        <li>One idea per item. On a broad page every avatar appears in at least one item. Bodies cap at roughly 60 words.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <span class="label block__label">Help-led, and the two ways it goes wrong</span>
+      <div class="chain" style="display:block;padding:14px 16px">
+        <p style="margin:0 0 8px;font-family:var(--mono);font-size:13px;color:var(--ink)">It gets the dead undercoat out in the bath instead of on your floor.<br>
+        <span style="color:var(--ink-3)">Soap free concentrate, releases what the brush cannot reach.</span></p>
+        <p style="margin:0;font-family:var(--mono);font-size:12.5px;color:var(--amber)">Not this: Contains a soap free deshedding concentrate. <span style="color:var(--ink-3)">Spec-led, the brand admiring itself.</span><br>
+        Not this either: Most brushes only reach the surface hair. <span style="color:var(--ink-3)">Observation-led, the reader does the work.</span></p>
+      </div>
+    </div>
+
+    <div class="out"><span class="label">Out</span><span class="file">products/&lt;slug&gt;/brain/08-angles.md</span></div>
+
+    <div class="gate">
+      <span class="label block__label">Stop and ask</span>
+      <ul class="list">
+        <li>Fewer than three angles survive. Given how wide section 1 of the ledger should be, the product is not ready.</li>
+        <li>The comparison page is unsubstantiated and the operator specifically wants one.</li>
+        <li>Every angle depends on something in OFF LIMITS.</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- 4b -->
+<article class="step" id="s4b">
+  <div class="step__rail"><span class="step__n">4b</span><span class="step__state">Exists</span></div>
+  <div class="step__body">
+    <div class="step__head">
+      <h2>Build the Page</h2>
+      <span class="step__src">templates/landing-pages/ &middot; skills/listicle-builder</span>
+    </div>
+    <p class="lede">The operator makes a selection, not a marketing decision.</p>
+
+    <div class="chain">
+      <div class="chain__step"><b>08-angles.md</b><em>Operator picks a row</em></div>
+      <div class="chain__step"><b>listicle-builder</b><em>Hand it that concept block plus 07-claims.md</em></div>
+      <div class="chain__step"><b>The copy</b><em>Headline, intro, 5 to 7 argued items, the product turn, the close</em></div>
+      <div class="chain__step"><b>The template</b><em>Named on the row. Drop it in, deploy, report the full URL</em></div>
+    </div>
+    <p style="font-size:14px;margin:0 0 18px">If the builder has to go back into <span class="file">05-positioning.md</span> to make a decision, 4a was not specific enough. That is the test of whether it worked.</p>
+
+    <div class="block">
+      <span class="label block__label">House rules the copy carries</span>
+      <ul class="list">
+        <li><b>Intro length follows awareness.</b> Product aware or solution aware gets 40 to 70 words, set the frame and hand over to the list. Problem aware or unaware gets 80 to 150, open inside their experience of the problem. Either way, do not name the product in the intro.</li>
+        <li><b>The final item is the guarantee,</b> written help-led with the terms as the kicker, and a body that names the real test the buyer should run rather than restating the terms.</li>
+        <li><b>The close does not repeat the risk reversal,</b> because the guarantee now has its own item. 45 to 120 words, the offer and one call to action.</li>
+        <li>Item bodies stay under 60 words. Real photos at 3:2, four gallery thumbnails, the first screen belongs to the hook.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <span class="label block__label">The three templates</span>
+      <ul class="list">
+        <li><b>listicle-1.</b> The workhorse advertorial. Route per lander in one Next.js app, proven at roughly 40 live routes. Reason bodies under 60 words, real photos at 3:2, four gallery thumbnails, the first screen belongs to the hook.</li>
+        <li><b>listicle-comparison-above-fold.</b> Same DNA with a 3-way comparison table directly under the article header. For categories where the alternative is the real objection.</li>
+        <li><b>ryze-hero-1.</b> A DTC hero and homepage shell. Not an advertorial, and no live deployment yet.</li>
+      </ul>
+    </div>
+    <div class="out"><span class="label">Out</span><span class="file">products/&lt;slug&gt;/lander/</span><span class="label">deployed, full URL reported</span></div>
+  </div>
+</article>
+
+<!-- 5 -->
+<article class="step" id="s5">
+  <div class="step__rail"><span class="step__n">5</span><span class="step__state">Skills</span></div>
+  <div class="step__body">
+    <div class="step__head">
+      <h2>Make the Ads</h2>
+      <span class="step__src">skills/ &middot; brain/creative-system.md</span>
+    </div>
+    <p class="lede">Read <span class="file">brain/creative-system.md</span> before any creative work. Do not re-derive the vocabulary. Read that product's <span class="file">07-claims.md</span> before writing a single line of ad copy.</p>
+
+    <div class="chain">
+      <div class="chain__step"><b>static-to-video-multiplier</b><em>One winning static becomes 7 to 8 shootable scripts, each with its own hook</em></div>
+      <div class="chain__step"><b>video-row-builder</b><em>Each script becomes a Notion row an editor can execute without asking a question</em></div>
+      <div class="chain__step"><b>higgsfield-generate</b><em>The assets themselves, image, video, audio</em></div>
+      <div class="chain__step"><b>rapid-ads-workflow</b><em>Splits the batch per Facebook Page and per CTA, writes the bulk-copy CSV</em></div>
+    </div>
+    <p style="font-size:14px;margin:0"><b>In rapid-ads-workflow, "the page" means the Facebook Page identity, not the landing page.</b> Per-launch work is writing the JSON config. The script does not change.</p>
+  </div>
+</article>
+
+<!-- 6 -->
+<article class="step" id="s6">
+  <div class="step__rail"><span class="step__n">6</span><span class="step__state">Exists</span></div>
+  <div class="step__body">
+    <div class="step__head">
+      <h2>Launch and Test</h2>
+      <span class="step__src">brain/creative-testing-methodology.md</span>
+    </div>
+    <p class="lede">The canonical methodology governs from here: the creative hierarchy, the four modes of testing, single-variable discipline, hypothesis-first design and the pre-launch checklist.</p>
+    <div class="block">
+      <ul class="list">
+        <li><b>A/B testing on landers is Intelligems</b>, which needs <span class="tok">igId</span> appended. Shoplift is Shopify-side only.</li>
+        <li>Always send the full URL, never a bare slug.</li>
+        <li>Do not strip vendor scripts. Pixel and tracking snippets are atomic.</li>
+        <li>What is learned goes to <span class="file">lessons/</span> in the same session, one fact per file, plus its line in <span class="file">lessons/INDEX.md</span>. A lesson that lives only in local memory never reaches the other machine.</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<section class="section">
+  <h3>What a finished product folder holds</h3>
+  <p class="intro">Blue is what the new prompts add.</p>
+<pre class="tree">products/&lt;slug&gt;/
+  brief.md                    <i>store assignment, blockers, next action</i>
+  brain/
+    01-avatars.md
+    02-voice-bank.md
+    03-solution-landscape.md
+    04-gaps.md
+    05-positioning.md
+    <b>06-identity.md            name, product titles, label copy and brief</b>
+    <b>07-claims.md              how far we can go, and the two places we cannot</b>
+    <b>08-angles.md              the page menu the operator picks from</b>
+  research/
+  images/
+  <b>label/                      white label only</b>
+  lander/                     <i>once a page is built</i></pre>
+</section>
+
+<section class="section">
+  <h3>Rules every prompt carries</h3>
+  <p class="intro">Repeated in each file because these are the ones that get dropped.</p>
+  <div class="rules">
+    <ul class="list">
+      <li>No em-dashes, anywhere.</li>
+      <li>Never invent a spec, a statistic, a study, a certification or a volume number. Write a <span class="tok">[BRACKETED PLACEHOLDER]</span> instead. <b>An honest hole beats a filled guess.</b></li>
+      <li><span class="tok">[BRAND]</span> and <span class="tok">[PRODUCT]</span> are never filled in by the model.</li>
+    </ul>
+    <ul class="list">
+      <li>Verbatim customer quotes keep their original spelling and typos.</li>
+      <li>The operator picks names and angles. The model shortlists.</li>
+      <li>Anything unresolved goes in a single "what is still blocking" list, so there is one place to look.</li>
+      <li>Test a prompt on a product where the answer is already known. <span class="file">electric-scissors</span> and <span class="file">knee-crawler</span> both have finished pages built by hand.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span>Tism Comm Project</span>
+  <span>Steps 1, 2, 3, 4b, 5 and 6 are unchanged</span>
+  <span>Full detail lives in prompts/ in the repo</span>
+  <span>15 August 2026</span>
+</footer>
+
+</div>
+</body>
+</html>

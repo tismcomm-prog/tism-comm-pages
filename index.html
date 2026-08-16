@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tism Comm Pages</title>
+<meta name="description" content="Static pages, one folder each.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E6EAEE;--card:#FBFCFD;--ink:#0E151C;--ink-2:#3A4653;--ink-3:#77828E;
+  --rule:#C6CDD5;--rule-soft:#DDE2E7;--blue:#1A48CE;
+  --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --cond:"IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink-2);font-family:var(--sans);
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 28px}
+.label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3)}
+header{padding:70px 0 34px}
+.eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:32px}
+.eyebrow .bar{height:1px;background:var(--rule);flex:1}
+h1{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:-.015em;
+  font-size:clamp(40px,9vw,70px);line-height:.95;color:var(--ink);margin:0 0 14px}
+header p{max-width:46ch;margin:0}
+.list{border-top:1px solid var(--ink);margin:26px 0 0}
+.row{display:grid;grid-template-columns:1fr auto;gap:10px 24px;align-items:baseline;
+  border-bottom:1px solid var(--rule);padding:20px 0;text-decoration:none;color:inherit}
+.row:hover{background:var(--card)}
+.row:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.row h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:24px;
+  line-height:1.05;color:var(--ink);margin:0 0 5px}
+.row p{margin:0;font-size:14.5px;max-width:52ch}
+.row .go{font-family:var(--mono);font-size:12.5px;color:var(--blue);white-space:nowrap}
+.row .extra{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.pill{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);background:#EDF0F3;
+  border:1px solid var(--rule-soft);border-radius:3px;padding:2px 7px;text-decoration:none}
+.pill:hover{border-color:var(--blue);color:var(--blue)}
+footer{margin:44px 0 70px;padding-top:16px;border-top:1px solid var(--rule)}
+footer span{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+@media(max-width:520px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow"><span class="label">Tism Comm</span><span class="bar"></span><span class="label">Pages</span></div>
+    <h1>Pages</h1>
+    <p>Static pages, one folder each. Every one is self-contained: a single file, no build step.</p>
+  </header>
+
+  <div class="list">
+    <a class="row" href="/build-flow/">
+      <div>
+        <h2>The Build Flow</h2>
+        <p>Steps 2.5 to 6, from Product Identity through Launch, including the four new prompts.</p>
+      </div>
+      <span class="go">Open &rarr;</span>
+      <div class="extra"><span class="pill" onclick="event.preventDefault();window.location='/build-flow/build-flow.pdf'">PDF, 10 pages</span><span class="pill">Updated 15 Aug 2026</span></div>
+    </a>
+  </div>
+
+  <footer><span>Add a page by adding a folder with an index.html, then a row here.</span></footer>
+</div>
+</body>
+</html>
