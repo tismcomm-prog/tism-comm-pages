@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Electric Scissors: Product Brief</title>
+<meta name="description" content="The product brain for the cordless electric rotary cutter, read as a brief.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f2f1ee; --panel:#ffffff; --ink:#14181c; --body:#3d454c; --muted:#79828a;
+  --rule:#dedad3; --amber:#b8560a; --amber-deep:#9a4708; --amber-soft:#f7eee4;
+  --band:#1b2025;
+  --head:"Oswald","Arial Narrow",sans-serif;
+  --sans:"IBM Plex Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+.lab{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3,h4{font-family:var(--head);text-transform:uppercase;color:var(--ink);margin:0;letter-spacing:.01em}
+a{color:var(--amber-deep)}
+
+/* header */
+header{background:var(--band);color:#c9d0d6;padding:52px 0 44px}
+header .lab{color:var(--amber)}
+header h1{color:#fff;font-weight:700;font-size:clamp(38px,6.6vw,68px);line-height:.95;margin:16px 0 14px}
+header p.sub{max-width:62ch;margin:0 0 26px;color:#a8b1b8;font-size:16.5px}
+.meta{display:flex;flex-wrap:wrap;gap:0 30px;border-top:1px solid #2e353b;padding-top:16px}
+.meta div{display:flex;gap:9px;align-items:baseline}
+.meta span.v{font-family:var(--mono);font-size:12.5px;color:#e7eaec}
+
+/* the four things */
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--rule);background:var(--panel);margin:-30px 0 0;position:relative;z-index:2}
+.key{padding:20px 20px 22px;border-right:1px solid var(--rule)}
+.key:last-child{border-right:0}
+.key h4{font-size:13px;font-weight:600;letter-spacing:.1em;color:var(--amber-deep);margin-bottom:9px}
+.key p{margin:0;font-size:15px;line-height:1.5;color:var(--ink)}
+.key p em{font-style:normal;font-family:var(--head);font-weight:600;font-size:19px;display:block;margin-bottom:4px}
+
+section{padding:56px 0 8px}
+.shead{display:flex;align-items:baseline;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:26px}
+.shead h2{font-size:clamp(24px,3.4vw,34px);font-weight:700;line-height:1}
+.shead .lab{margin-left:auto}
+
+/* avatars */
+.av{display:grid;grid-template-columns:280px 1fr;gap:26px;align-items:start}
+.avlist{display:flex;flex-direction:column;gap:8px;position:sticky;top:18px}
+.avbtn{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:start;text-align:left;background:var(--panel);border:1px solid var(--rule);padding:13px 14px;cursor:pointer;font:inherit;color:var(--body);transition:border-color .12s,background .12s}
+.avbtn:hover{border-color:var(--amber)}
+.avbtn[aria-selected="true"]{border-color:var(--ink);background:#fff;box-shadow:inset 3px 0 0 var(--amber)}
+.avbtn .rk{font-family:var(--head);font-weight:700;font-size:17px;color:var(--amber)}
+.avbtn b{display:block;font-family:var(--head);font-weight:600;font-size:17px;color:var(--ink);text-transform:uppercase;line-height:1.1}
+.avbtn small{display:block;font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+.avpanel{background:var(--panel);border:1px solid var(--rule);padding:26px 26px 30px;min-height:400px}
+.avpanel[hidden]{display:none}
+.avtop{border-bottom:1px solid var(--rule);padding-bottom:16px;margin-bottom:18px}
+.avtop h3{font-size:clamp(22px,3vw,30px);font-weight:700;line-height:1.02;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--rule);color:var(--body);background:#fbfaf8}
+.chip.aw{border-color:var(--amber);color:var(--amber-deep);background:var(--amber-soft)}
+.hook{background:var(--amber-soft);border-left:3px solid var(--amber);padding:13px 16px;margin:0 0 20px}
+.hook .lab{color:var(--amber-deep);display:block;margin-bottom:5px}
+.hook p{margin:0;font-family:var(--head);font-weight:500;font-size:19px;line-height:1.28;color:var(--ink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.blk{margin-bottom:18px}
+.blk>.lab{display:block;margin-bottom:8px}
+.blk p{margin:0 0 8px}
+ul.q{list-style:none;margin:0;padding:0}
+ul.q li{position:relative;padding-left:14px;margin-bottom:8px;font-size:14.5px;line-height:1.5}
+ul.q li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:1px;background:var(--muted)}
+ul.v{list-style:none;margin:0;padding:0}
+ul.v li{border-left:2px solid var(--rule);padding:2px 0 2px 12px;margin-bottom:10px;font-size:14.5px;line-height:1.5;color:var(--ink)}
+ul.v li.bad{border-left-color:var(--amber)}
+
+/* generic cards + tables */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--rule);padding:20px}
+.card h4{font-size:16px;font-weight:600;margin-bottom:8px}
+.card h4::before{content:"";display:block;width:26px;height:3px;background:var(--amber);margin-bottom:12px}
+.card p{margin:0;font-size:14.5px}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--rule);font-size:14.5px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:#faf9f7}
+tr:last-child td{border-bottom:0}
+td.us{color:var(--ink);font-weight:500}
+.scroll{overflow-x:auto}
+
+.drafts{list-style:none;margin:0;padding:0;counter-reset:d}
+.drafts li{counter-increment:d;display:grid;grid-template-columns:26px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--rule);font-size:15px}
+.drafts li:last-child{border-bottom:0}
+.drafts li::before{content:counter(d);font-family:var(--mono);font-size:12px;color:var(--muted)}
+.drafts li.win{background:var(--amber-soft);margin:0 -12px;padding:13px 12px}
+.drafts li.win::before{color:var(--amber-deep);font-weight:600}
+.drafts li.win b{color:var(--ink)}
+
+.band{background:var(--band);color:#c9d0d6;padding:44px 0;margin-top:50px}
+.band h2{color:#fff}
+.band .shead{border-bottom-color:#39424a}
+.band .card{background:#232a30;border-color:#39424a}
+.band .card h4{color:#fff}
+.band .card p{color:#a8b1b8}
+.band .lab{color:#8c959c}
+
+.check{list-style:none;margin:0;padding:0;columns:2;column-gap:34px}
+.check li{break-inside:avoid;position:relative;padding-left:26px;margin-bottom:12px;font-size:14.5px;line-height:1.5}
+.check li::before{content:"";position:absolute;left:0;top:2px;width:15px;height:15px;border:1.5px solid var(--amber)}
+.check li b{color:var(--ink)}
+
+footer{padding:34px 0 60px;border-top:1px solid var(--rule);margin-top:44px;display:flex;flex-wrap:wrap;gap:8px 26px}
+footer span{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+
+@media (max-width:900px){
+  .keys{grid-template-columns:1fr 1fr}
+  .key:nth-child(2){border-right:0}
+  .key:nth-child(1),.key:nth-child(2){border-bottom:1px solid var(--rule)}
+  .av{grid-template-columns:1fr}
+  .avlist{position:static;flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .avbtn{min-width:210px}
+  .g2{grid-template-columns:1fr}
+  .check{columns:1}
+}
+@media (max-width:560px){ .keys{grid-template-columns:1fr} .key{border-right:0;border-bottom:1px solid var(--rule)} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="lab">Ridge &amp; Cellar Co &nbsp;/&nbsp; Product Brief</span>
+    <h1>Cordless Electric<br>Rotary Cutter</h1>
+    <p class="sub">Everything below is read from the product brain, documents 01 through 05 and 08. Nothing here is taken from the live product page. Use it to judge whether that page is doing its job.</p>
+    <div class="meta">
+      <div><span class="lab">Corpus</span><span class="v">200 reviews, 4 and 5 star only</span></div>
+      <div><span class="lab">Avatars</span><span class="v">5</span></div>
+      <div><span class="lab">Angles ready</span><span class="v">8</span></div>
+      <div><span class="lab">Launch on</span><span class="v">Dana</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="keys">
+    <div class="key"><h4>USP</h4><p><em>It does the cutting.<br>You just steer.</em>Chosen because it states the mechanism rather than a benefit, and because it survives contact with our own four star reviews.</p></div>
+    <div class="key"><h4>Problem mechanism</h4><p><em>The Double Duty Hand</em>One hand generates the cutting force and steers the line at the same time. Both jobs run through the same thumb.</p></div>
+    <div class="key"><h4>Solution mechanism</h4><p><em>The Lift Guide</em>The fin lifts the material into a powered wheel. The wheel supplies the force. Your hand only pushes forward.</p></div>
+    <div class="key"><h4>The honest limit</h4><p><em>Reduction, not removal</em>"It still takes some grip and finger strength." A page promising effortlessness buys refunds.</p></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <div class="shead"><h2>The five avatars</h2><span class="lab">Click a name</span></div>
+  <div class="av">
+    <div class="avlist" role="tablist" aria-label="Avatars">
+      <button class="avbtn" role="tab" aria-selected="true" data-t="a1"><span class="rk">1</span><span><b>Dana</b><small>The one whose bin will not close</small></span></button>
+      <button class="avbtn" role="tab" aria-selected="false" data-t="a2"><span class="rk">2</span><span><b>Marcus</b><small>The one who has already been cut</small></span></button>
+      <button class="avbtn" role="tab" aria-selected="false" data-t="a3"><span class="rk">3</span><span><b>Ruth</b><small>The one whose hands gave out first</small></span></button>
+      <button class="avbtn" role="tab" aria-selected="false" data-t="a4"><span class="rk">4</span><span><b>Trevor</b><small>The one with a truckload and a deadline</small></span></button>
+      <button class="avbtn" role="tab" aria-selected="false" data-t="a5"><span class="rk">5</span><span><b>Nina</b><small>The one who cuts materials, not boxes</small></span></button>
+    </div>
+
+    <div class="avpanel" id="a1" role="tabpanel">
+      <div class="avtop">
+        <h3>Dana, the one whose bin will not close</h3>
+        <p>She does not have a cutting problem. She has a volume problem. Her constraint is a fixed container and a fixed pickup schedule, and she measures success in bin space and trips avoided, not in comfort.</p>
+        <div class="chips"><span class="chip aw">Solution aware</span><span class="chip">Rank 1, launch here</span><span class="chip">Lowest education needed</span></div>
+      </div>
+      <div class="hook"><span class="lab">Primary hook</span><p>Your recycling bin is not too small. Your boxes are too big.</p></div>
+      <div class="g2">
+        <div>
+          <div class="blk"><span class="lab">In her words</span>
+            <ul class="v">
+              <li>"I moved recently, have about 8,000,000 cardboard boxes to recycle but my city only picks up recycling every 2 weeks"</li>
+              <li>"There's so much more eoom in recycling bin now that I can cut things smaller."</li>
+              <li>"I've had an empty large flat screen TV box in my garage for weeks."</li>
+            </ul>
+          </div>
+          <div class="blk"><span class="lab">What she does now</span>
+            <ul class="q"><li>Utility knife, then folding and bagging</li><li>Delegating it, and it not getting done</li><li>Waiting for the next pickup cycle</li></ul>
+          </div>
+        </div>
+        <div>
+          <div class="blk"><span class="lab">What she actually wants</span><p>Every box gone on the day it arrives, inside one bin, with no trip to the recycling centre and no pile in the garage.</p></div>
+          <div class="blk"><span class="lab">What she is afraid of</span><p>Another gadget in a drawer. That it will not cut the furniture and TV boxes, which are the only ones she really needs it for.</p></div>
+          <div class="blk"><span class="lab">Buying trigger</span><p>The night before pickup, when the lid will not close and there is still a stack in the garage.</p></div>
+          <div class="blk"><span class="lab">Where she is</span><p>r/declutter, r/ZeroWaste, municipal recycling groups, Reels demos. Searches "how to break down boxes fast".</p></div>
+        </div>
+      </div>
+      <div class="blk"><span class="lab">Where her copy starts</span><p><b>Open on the outcome, not the tool.</b> First frame is a bin that will not close. Do not explain what an electric cutter is, she already knows.</p></div>
+    </div>
+
+    <div class="avpanel" id="a2" role="tabpanel" hidden>
+      <div class="avtop">
+        <h3>Marcus, the one who has already been cut</h3>
+        <p>Competent, fast, and has a utility knife in his pocket right now. He is not buying capability. He is buying the removal of a specific recurring accident.</p>
+        <div class="chips"><span class="chip aw">Solution aware, sceptical</span><span class="chip">Rank 2</span><span class="chip">Owns a working tool</span></div>
+      </div>
+      <div class="hook"><span class="lab">Primary hook</span><p>You are faster with the box cutter. You are also the reason you keep buying bandaids.</p></div>
+      <div class="g2">
+        <div>
+          <div class="blk"><span class="lab">In his words</span>
+            <ul class="v">
+              <li>"Super easy to use and no one got cut which is a normal occurrence for me when cutting boxes."</li>
+              <li>"tired of replacing box cutter blades &amp;, honestly, tired of box cutters"</li>
+              <li class="bad">"I can break down boxes and slice them up quicker with a box cutter/rock knife."</li>
+            </ul>
+          </div>
+          <div class="blk"><span class="lab">The honest read</span><p>He does not replace the knife. He splits the job, small boxes on the knife and large ones on this. Sell the split rather than a replacement.</p></div>
+        </div>
+        <div>
+          <div class="blk"><span class="lab">What he actually wants</span><p>Through a stack without a trip to the first aid kit and without buying another pack of blades.</p></div>
+          <div class="blk"><span class="lab">What he is afraid of</span><p>That it is slower than what he has, which the source says it sometimes is. That it is a toy.</p></div>
+          <div class="blk"><span class="lab">Buying trigger</span><p>The cut itself. A blade skip across a knuckle, or a near miss with a child nearby. He buys within days.</p></div>
+        </div>
+      </div>
+      <div class="blk"><span class="lab">Where his copy starts</span><p><b>Open by agreeing with him.</b> Any line claiming he is slower with a knife loses him immediately. Concede the speed on small boxes in our own reviewer's words, then take the large box, the blade changes and the cuts.</p></div>
+    </div>
+
+    <div class="avpanel" id="a3" role="tabpanel" hidden>
+      <div class="avtop">
+        <h3>Ruth, the one whose hands gave out first</h3>
+        <p>Her constraint is her body. She is not optimising a chore, she is trying not to give it up. Highest intent and highest emotional stakes in the corpus, and the stakes are independence.</p>
+        <div class="chips"><span class="chip aw">Problem aware</span><span class="chip">Rank 3</span><span class="chip" style="border-color:var(--amber);color:var(--amber-deep)">Refund risk, read the flag</span></div>
+      </div>
+      <div class="hook"><span class="lab">Primary hook</span><p>If breaking down one box leaves your thumb sore for the rest of the day, the problem is not your grip.</p></div>
+      <div class="g2">
+        <div>
+          <div class="blk"><span class="lab">In her words</span>
+            <ul class="v">
+              <li>"At 79 years of age, cutting boxes with knives &amp; scissors was the bane of my existence"</li>
+              <li>"I have Arthritis in my thumbs so using this is so much easier"</li>
+              <li>"My strength lessens with each passing day."</li>
+            </ul>
+          </div>
+          <div class="blk"><span class="lab">The evidence against us</span>
+            <ul class="v">
+              <li class="bad">"I am arthritic and I thought this might help but it doesn't. The time it takes to manipulate the little black clip on the side ... is too hard for me to handle. The pain is intense."</li>
+              <li class="bad">"This really minimizes strain, but doesn't eliminate it."</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="blk"><span class="lab">What she actually wants</span><p>To finish the boxes herself, today, without paying for it in pain tomorrow, and without asking anyone.</p></div>
+          <div class="blk"><span class="lab">What she is afraid of</span><p>That it will hurt in a new way, and that the safety mechanism will need exactly the grip she does not have.</p></div>
+          <div class="blk"><span class="lab">Buying trigger</span><p>The moment she puts the scissors down mid box because her thumb locked, and realises she will have to leave the rest.</p></div>
+        </div>
+      </div>
+      <div class="blk"><span class="lab">Mandatory in her funnel</span><p><b>Show the safety lock being operated.</b> The corpus contains an arthritic buyer for whom that exact part failed. Setting the expectation before purchase is not optional, it is the difference between a sale and a refund plus a review.</p></div>
+    </div>
+
+    <div class="avpanel" id="a4" role="tabpanel" hidden>
+      <div class="avtop">
+        <h3>Trevor, the one with a truckload and a deadline</h3>
+        <p>A one time event, not a chore. A defined volume of material and a defined window. He converts fastest, researches least, and is the only avatar whose primary job is often carpet rather than cardboard.</p>
+        <div class="chips"><span class="chip aw">Problem aware, often unaware of the category</span><span class="chip">Rank 4</span><span class="chip">Search intent, not cold</span></div>
+      </div>
+      <div class="hook"><span class="lab">Primary hook</span><p>1,100 square feet of soaked carpet out of a basement, without renting anything.</p></div>
+      <div class="g2">
+        <div>
+          <div class="blk"><span class="lab">In his words</span>
+            <ul class="v">
+              <li>"Great tool cut about 1100 sq. Feet of wet carpet out of my flooded basement with ease!"</li>
+              <li>"Awesome tool! Five rooms of carpet removed."</li>
+              <li>"We tried box cutters, scissors, and utility knives to no avail."</li>
+            </ul>
+          </div>
+          <div class="blk"><span class="lab">The limit to state</span><p>"I do not recommend cutting carpet padding as it will get stopped up quickly, but if you separate the carpet and the padding, it works very quickly."</p></div>
+        </div>
+        <div>
+          <div class="blk"><span class="lab">What he actually wants</span><p>The material out of the house and into the truck this weekend, in pieces he can carry alone.</p></div>
+          <div class="blk"><span class="lab">What he is afraid of</span><p>A tool that stalls halfway and leaves him worse off than the knife. Wasting a Saturday.</p></div>
+          <div class="blk"><span class="lab">Buying trigger</span><p>Hour two, on his knees, dull knife, 80 percent of the floor left. Same or next day delivery.</p></div>
+        </div>
+      </div>
+      <div class="blk"><span class="lab">Where his copy starts</span><p><b>Name the job.</b> Carpet removal, remodel cleanup, moving week. Search and intent placements rather than cold interruption.</p></div>
+    </div>
+
+    <div class="avpanel" id="a5" role="tabpanel" hidden>
+      <div class="avtop">
+        <h3>Nina, the one who cuts materials, not boxes</h3>
+        <p>She is making something, so the cut is the work product rather than waste disposal. Cut quality matters more than speed, and a ragged edge is a failure where for everyone else it is fine.</p>
+        <div class="chips"><span class="chip aw">Solution aware</span><span class="chip">Rank 5</span><span class="chip" style="border-color:var(--amber);color:var(--amber-deep)">Thinnest evidence</span></div>
+      </div>
+      <div class="hook"><span class="lab">Primary hook</span><p>For the cuts your rotary cutter and mat cannot handle: rigid, thick, and off the table.</p></div>
+      <div class="g2">
+        <div>
+          <div class="blk"><span class="lab">In her words</span>
+            <ul class="v">
+              <li>"I had to cut 60 large cardboard circles for a school project ... our hands cramping in the process!"</li>
+              <li>"I remake books, and was having trouble dissecting an old set of encyclopedia."</li>
+              <li class="bad">"The cutter is so fast and strong it can 'chew' the fabric a bit."</li>
+            </ul>
+          </div>
+          <div class="blk"><span class="lab">What she is afraid of</span><p>That it chews the fabric and ruins the piece. That it cannot do curves, which the source confirms it largely cannot.</p></div>
+        </div>
+        <div>
+          <div class="blk"><span class="lab">The disagreement on record</span><p>The operator's notes point at seamstresses. The evidence does not support leading with garment sewing: sewing appears a handful of times in 200 reviews and the quotes are qualified rather than enthusiastic.</p></div>
+          <div class="blk"><span class="lab">The recommendation</span><p><b>Build her, but run her on rigid material.</b> Cardboard crafts, book board, foam board, screen mesh, classroom projects, upholstery weight. Not garment fabric.</p></div>
+        </div>
+      </div>
+      <div class="blk"><span class="lab">If we run sewing anyway</span><p>Test on a real fabric sample before writing a line of that funnel. A sewing led launch that produces "it chewed my fabric" reviews costs more than the segment is worth.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><h2>The USP, and what lost</h2><span class="lab">05, section 5.1</span></div>
+  <ol class="drafts">
+    <li>A cordless cutter that turns a garage full of boxes into a bin that closes, in one sitting, without wrecking your hands.</li>
+    <li>The tool that makes the cardboard fit, so you stop making trips.</li>
+    <li>Break down a week of packages sitting on the couch.</li>
+    <li>Powered cardboard cutting for people whose hands are the bottleneck.</li>
+    <li class="win"><b>It does the cutting. You just steer.</b> &nbsp;Chosen. The only draft that states the mechanism instead of a benefit, and the only one that survives our own four star reviews. Drafts 1 and 3 are better hooks for Dana specifically and should be used as such in her funnel.</li>
+  </ol>
+</section>
+
+<section>
+  <div class="shead"><h2>The two mechanisms</h2><span class="lab">05, sections 5.2 and 5.3</span></div>
+  <div class="cards">
+    <div class="card"><h4>The Double Duty Hand</h4><p>Cutting by hand makes one hand do two competing jobs: generate the force, and steer the line. Both run through the same small muscles and the same thumb joint.</p></div>
+    <div class="card"><h4>It explains the pain</h4><p>The load concentrates in thumb and wrist and scales with the size of the pile, not the difficulty of any one cut. Hence sore, numb, cramped.</p></div>
+    <div class="card"><h4>It explains the failure on thick board</h4><p>Thicker board raises the force needed, and there is no adjustment available, because the only source of force is the hand.</p></div>
+    <div class="card"><h4>It explains the cuts</h4><p>Fatigue in job one degrades job two. The slip happens on box nine, not box one.</p></div>
+  </div>
+  <div class="cards" style="margin-top:16px">
+    <div class="card"><h4>The Lift Guide</h4><p>The fixed metal fin behind the wheel slides under the material and lifts it into a blade that is already spinning under its own power. Your hand is left with one job: push forward.</p></div>
+    <div class="card"><h4>Proof, unprompted</h4><p>"The blade and guide lifted the carpet from the floor and allowed me to get as straight a cut as I possibly could."</p></div>
+    <div class="card"><h4>Why it is ours to take</h4><p>Competitors all have a guide, but their positioning is built on the wheel: RPM, torque, blade hardness. To claim the lift they would have to demote the motor they spent the page selling.</p></div>
+    <div class="card"><h4>The hero shot it implies</h4><p>Macro, side angle. The fin under the liner, the strip separating behind. The operator's hand relaxed and open, thumb straight. The argument is in the hand, not the blade.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><h2>Against the competition</h2><span class="lab">05, section 5.4</span></div>
+  <div class="scroll"><table>
+    <tr><th>Who</th><th>Their claim</th><th>What we claim instead</th><th>Why it is a different promise</th></tr>
+    <tr><td>Premium spec brand</td><td>Cutting power and blade longevity. 285 RPM, titanium coating.</td><td class="us">The hand does one job instead of two.</td><td>Theirs is a component upgrade. Ours is a change in who does the work.</td></tr>
+    <tr><td>High spec challenger</td><td>Raw capability. 380W, 600 RPM, dual speed, LED display.</td><td class="us">The pile is gone and the bin closes.</td><td>They promise a better tool. We promise a finished chore.</td></tr>
+    <tr><td>Established tool brand</td><td>Stop straining your hands. The dangerous one, they own hand strain generically.</td><td class="us">This chore, for this person, this weekend.</td><td>We do not out-claim them, we out-specify them. Their page speaks to a household, our funnels speak to one person.</td></tr>
+    <tr><td>Unbranded marketplace</td><td>Price.</td><td class="us">The one still working in month six.</td><td>Different axis. The corpus contains a buyer on their third unit in six months.</td></tr>
+  </table></div>
+  <p style="margin-top:14px"><b>The rule in one line:</b> everyone here sells a better cut. We sell a different arrangement of the work. We will lose any RPM argument and we do not need to enter one.</p>
+</section>
+
+<section>
+  <div class="shead"><h2>Angles ready to build</h2><span class="lab">08, the launch sheet</span></div>
+  <div class="scroll"><table>
+    <tr><th>#</th><th>H1</th><th>Scope</th><th>Avatar</th><th>Images</th></tr>
+    <tr><td>1</td><td class="us">6 Jobs People Bought These Electric Scissors For, And The One They Keep Them For</td><td>Broad</td><td>All five</td><td>all exist</td></tr>
+    <tr><td>2</td><td class="us">6 Reasons Movers, Renovators and Crafters Keep Reaching For These Electric Scissors</td><td>Broad</td><td>Dana, Trevor, Nina</td><td>all exist</td></tr>
+    <tr><td>3</td><td class="us">7 Things Nobody Tells You About Breaking Down Boxes Until You Have Tried Everything</td><td>Broad</td><td>Dana, Ruth, Marcus</td><td>2 needed</td></tr>
+    <tr><td>4</td><td class="us">6 Materials People Cut With This That They Never Bought It For</td><td>Broad</td><td>Nina, Trevor, Dana</td><td>3 needed</td></tr>
+    <tr><td>5</td><td class="us">6 Reasons People Who Already Own A Box Cutter Bought This Anyway</td><td>Broad</td><td>Marcus, Trevor, Dana</td><td>2 needed</td></tr>
+    <tr><td>6</td><td class="us">6 Reasons People With Arthritis Love These Electric Scissors For Everyday Cutting</td><td>Narrow</td><td>Ruth</td><td>3 needed</td></tr>
+    <tr><td>7</td><td class="us">5 Reasons Movers Buy These The Week Before They Pack</td><td>Narrow</td><td>Trevor</td><td>2 needed</td></tr>
+    <tr><td>8</td><td class="us">5 Reasons This Beats Scissors And A Box Cutter On A Full Stack</td><td>Comparison</td><td>vs scissors and utility knife</td><td>3 needed</td></tr>
+  </table></div>
+</section>
+
+</div>
+
+<div class="band">
+  <div class="wrap">
+    <section style="padding-top:0">
+      <div class="shead"><h2>Do not write these</h2><span class="lab">04, the sameness list</span></div>
+      <div class="cards">
+        <div class="card"><h4>RPM and wattage</h4><p>285 RPM, 380W, 600 RPM. Every competitor page leads here.</p></div>
+        <div class="card"><h4>Thickness in fractions</h4><p>1/4 inch, 0.39 inch, 6mm. The category's arms race.</p></div>
+        <div class="card"><h4>Blade metallurgy</h4><p>Titanium coating, hardness ratings, six month blade life.</p></div>
+        <div class="card"><h4>The materials list</h4><p>Cardboard, fabric, carpet, leather, plastic. Identical on all four competitor pages.</p></div>
+        <div class="card"><h4>"Cuts like butter"</h4><p>Reviewers may keep it. The ads may not.</p></div>
+        <div class="card"><h4>The generic unboxing demo</h4><p>What the whole market is running. The format we are stepping away from.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>Objections nobody handles</h2><span class="lab">04, the open goals</span></div>
+      <div class="cards">
+        <div class="card"><h4>It will not cut the boxes I need it for</h4><p>Thick, double wall, stapled seam. Competitors answer with a bigger spec, which does not work on a buyer already let down by a spec. Two reviewers say the fix is holding it at an angle.</p></div>
+        <div class="card"><h4>The safety lock will be what hurts me</h4><p>Real evidence in the corpus that this happens. No competitor page shows how the lock behaves in the hand.</p></div>
+        <div class="card"><h4>It is a two hand job and I am alone</h4><p>"i couldn't cut anything bigger than a bread box alone." Unaddressed everywhere.</p></div>
+        <div class="card"><h4>The battery dies and it is trash</h4><p>Answer with the replacement policy. The corpus already holds the proof: a snapped blade bolt replaced free, and the rating went up because of it.</p></div>
+        <div class="card"><h4>I own a working tool and I am faster</h4><p>Marcus. Concede the speed on small boxes, then take the large box, the blade changes and the cuts.</p></div>
+        <div class="card"><h4>It costs more than it looks like it should</h4><p>Resolved in the reviews by regret at waiting, not by a value argument. "The price of this was a little high, but I wish I caved sooner."</p></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="wrap">
+<section>
+  <div class="shead"><h2>Hold the page against this</h2><span class="lab">Derived from the brain</span></div>
+  <ul class="check">
+    <li><b>Does one named avatar own the page?</b> A page written to all five is written to nobody.</li>
+    <li><b>Does it open where that avatar's awareness stage starts?</b> Dana on the outcome, Ruth on the pain, Marcus by agreeing with him.</li>
+    <li><b>Is the mechanism named before the promise?</b> The Double Duty Hand before any claim about ease.</li>
+    <li><b>Does it claim reduction rather than removal?</b> Effortlessness contradicts our own four star reviews.</li>
+    <li><b>Does it state the thickness limit before the buyer finds it?</b> The buyers who knew left four and five stars.</li>
+    <li><b>Does it show the safety lock?</b> Mandatory on anything aimed at Ruth.</li>
+    <li><b>Does it concede the utility knife on small boxes?</b> Without that concession Marcus is gone by line two.</li>
+    <li><b>Does it avoid every item on the sameness list?</b> No RPM, no wattage, no blade metallurgy, no "cuts like butter".</li>
+    <li><b>Are the quotes verbatim, typos intact?</b> Tidied quotes read as written by us, because they were.</li>
+    <li><b>Does it answer at least three of the six open objections?</b> They are open on every competitor page.</li>
+    <li><b>Is the proof volume based rather than cut based?</b> A bin that closes beats another blade going through card.</li>
+    <li><b>Does anything on it claim curves, or garment fabric?</b> The source contradicts both.</li>
+  </ul>
+</section>
+
+<footer>
+  <span>Source: products/electric-scissors/brain, documents 01 to 05 and 08</span>
+  <span>Corpus: 200 reviews, 4 and 5 star only, no competitor reviews supplied</span>
+  <span>Nothing here is taken from the live product page</span>
+</footer>
+</div>
+
+<script>
+  var tabs = document.querySelectorAll('.avbtn');
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabs.forEach(function(b){
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        document.getElementById(b.dataset.t).hidden = (b !== btn);
+      });
+    });
+  });
+</script>
+</body>
+</html>
