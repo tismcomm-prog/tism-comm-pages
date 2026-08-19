@@ -44,6 +44,13 @@ h1 em{font-style:normal;color:var(--amber)}
 .meta:last-child{border-right:0}
 .meta .lab{display:block;margin-bottom:6px}
 .meta b{font-family:var(--head);font-weight:600;font-size:21px;color:#fff;display:block;line-height:1}
+.promise{margin:12px 0 0;color:var(--dim);font-size:15px;max-width:52ch}
+.event{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;border-top:1px solid var(--rule);padding:15px 0 16px}
+.ev-tag{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ground);background:var(--amber);padding:4px 9px}
+.event p{margin:0;flex:1 1 340px;font-size:14.5px;color:var(--dim)}
+.event p b{color:#fff;font-weight:600}
+.ev-link{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-decoration:none;border-bottom:1px solid var(--amber);white-space:nowrap}
+.ev-link:hover{color:#fff;border-color:#fff}
 .meta small{font-family:var(--mono);font-size:11.5px;color:var(--dim);display:block;margin-top:5px}
 
 section{padding:34px 0 0}
@@ -60,6 +67,7 @@ section{padding:34px 0 0}
 .ledger td{padding:13px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
 .ledger tr:last-child td{border-bottom:0}
 .ledger .nm{font-family:var(--head);font-weight:600;font-size:17px;text-transform:uppercase;color:#fff;line-height:1.1}
+.none{font-family:var(--mono);font-size:11.5px;color:var(--faint)}
 .ledger .sub{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:4px;display:block}
 .num{font-family:var(--mono);font-size:13.5px;color:var(--paper);white-space:nowrap}
 .num s{color:var(--faint);text-decoration:line-through;margin-left:6px}
@@ -104,6 +112,23 @@ section{padding:34px 0 0}
 .next b{color:#fff;font-weight:600;display:block;font-size:15px}
 .next span{color:var(--dim);font-size:14px}
 
+
+  /* readiness matrix */
+  .rlede{margin:-4px 0 18px;color:var(--dim);font-size:14.5px;max-width:78ch}
+  .ready{width:100%;border-collapse:collapse;font-size:13px}
+  .ready th{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--dim);text-align:center;padding:0 6px 10px;border-bottom:1px solid var(--rule);vertical-align:bottom}
+  .ready th span{display:block;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:4px;font-weight:400}
+  .ready th.rl{text-align:left;letter-spacing:.14em;text-transform:uppercase;font-size:9.5px;color:var(--faint)}
+  .ready td{padding:14px 6px;border-bottom:1px solid var(--rule);text-align:center}
+  .ready tr:last-child td{border-bottom:0}
+  .ready .rn{text-align:left;font-family:var(--head);font-weight:600;font-size:16px;text-transform:uppercase;color:#fff;line-height:1.1;white-space:nowrap;padding-right:16px}
+  .ready .rn span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--faint);text-transform:uppercase;margin-top:4px;font-weight:400}
+  .ready .on{color:var(--live);font-size:15px}
+  .ready .off{color:#3a444c;font-size:15px}
+  .ready .rv{text-align:left;font-family:var(--mono);font-size:12px;color:var(--dim);white-space:nowrap}
+  .rnote{margin:16px 0 0;padding:14px 16px;background:var(--panel);border-left:3px solid var(--amber);font-size:14px;color:var(--dim)}
+  .rnote b{color:#fff}
+  .rnote code{font-family:var(--mono);font-size:12.5px;color:var(--paper);background:var(--ground);padding:1px 5px;border-radius:2px}
 footer{margin:40px 0 60px;padding-top:16px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:8px 26px}
 footer span{font-family:var(--mono);font-size:11px;color:var(--faint)}
 a{color:var(--amber)}
@@ -120,30 +145,37 @@ a{color:var(--amber)}
 <header>
   <div class="sheet-top">
     <div class="sheet-id">
-      <span class="lab">Ridge &amp; Cellar Co &nbsp;/&nbsp; Launch Tracker</span>
-      <h1>Cordless<br>Electric <em>Box Cutter</em></h1>
+      <span class="lab">Launch Tracker &nbsp;/&nbsp; ridgeandcellarco.com</span>
+      <h1>Ridge <em>&amp;</em> Cellar Co</h1>
+      <p class="promise">The unglamorous jobs, from the roofline to the basement floor.</p>
     </div>
-    <div class="stamp"><span class="pulse"></span> Launched</div>
+    <div class="stamp"><span class="pulse"></span> Trading</div>
   </div>
   <div class="meta-row">
-    <div class="meta"><span class="lab">Elapsed</span><b id="elapsed">Day 0</b><small id="since">launched today</small></div>
-    <div class="meta"><span class="lab">Store</span><b>4 SKUs</b><small>all active</small></div>
-    <div class="meta"><span class="lab">Lead price</span><b>$59.99</b><small>vs $99.99, 40% off</small></div>
+    <div class="meta"><span class="lab">Store age</span><b id="elapsed">Day 0</b><small id="since">launched today</small></div>
+    <div class="meta"><span class="lab">On the shelf</span><b>4 SKUs</b><small>3 selling, 1 held</small></div>
+    <div class="meta"><span class="lab">Products in repo</span><b>7</b><small>3 sit in other stores</small></div>
     <div class="meta"><span class="lab">Creative built</span><b>72</b><small>statics and modules</small></div>
     <div class="meta"><span class="lab">Orders</span><b>0</b><small>none yet</small></div>
+  </div>
+  <div class="event">
+    <span class="ev-tag">Today</span>
+    <p><b>The Cordless Electric Box Cutter went live.</b> First product on paid traffic. Priced at $59.99 against $99.99, with a buy two get one free tier at $119.98.</p>
+    <a class="ev-link" href="/briefs/electric-scissors/">Read the brief &rarr;</a>
   </div>
 </header>
 
 <section>
   <div class="shead"><h2>The shelf</h2><span class="lab">live from Shopify, 19 Aug</span></div>
   <div class="scroll"><table class="ledger">
-    <tr><th>Product</th><th>State</th><th>Price</th><th>Gallery</th><th>Page</th></tr>
+    <tr><th>Product</th><th>State</th><th>Price</th><th>Gallery</th><th>Page</th><th>Brief</th></tr>
     <tr class="row-lead">
       <td><span class="nm">Cordless Electric Box Cutter</span><span class="sub">the launch product</span></td>
       <td><span class="mark m-live">Active</span></td>
       <td class="num">$59.99 <s>$99.99</s><br><span class="sub">2+1 free at $119.98</span></td>
       <td class="num">6 images</td>
       <td><a href="https://ridgeandcellarco.com/products/cuts-cardboard-and-carpet-without-wrecking-your-hands-cordless-cutter">Open</a></td>
+      <td><a href="/briefs/electric-scissors/">Read</a></td>
     </tr>
     <tr>
       <td><span class="nm">Dryer Vent Cleaner Kit</span><span class="sub">deepest asset set</span></td>
@@ -151,6 +183,7 @@ a{color:var(--amber)}
       <td class="num">$29.99 <s>$49.99</s></td>
       <td class="num">13 images</td>
       <td><a href="https://ridgeandcellarco.com/products/turn-your-vacuum-into-a-dryer-vent-cleaner-flat-reach-attachment-kit">Open</a></td>
+      <td><span class="none">not built</span></td>
     </tr>
     <tr>
       <td><span class="nm">Knee and Shin Shells</span><span class="sub">grip test outstanding</span></td>
@@ -158,6 +191,7 @@ a{color:var(--amber)}
       <td class="num">$29.99 <s>$49.99</s></td>
       <td class="num">8 images</td>
       <td><a href="https://ridgeandcellarco.com/products/knee-and-shin-protection-that-stays-put-while-you-crawl-hard-shell-pads">Open</a></td>
+      <td><span class="none">not built</span></td>
     </tr>
     <tr>
       <td><span class="nm">Dust and Pollen Mask</span><span class="sub">do not launch ads on this</span></td>
@@ -165,8 +199,48 @@ a{color:var(--amber)}
       <td class="num">$29.99 <s>$49.99</s></td>
       <td class="num">7 images</td>
       <td><a href="https://ridgeandcellarco.com/products/keeps-dust-and-pollen-out-of-the-air-you-breathe-reusable-dust-mask">Open</a></td>
+      <td><span class="none">not built</span></td>
     </tr>
   </table></div>
+</section>
+
+
+<section>
+  <div class="shead"><h2>Readiness</h2><span class="lab">what each product has, step by step</span></div>
+  <p class="rlede">Every product runs the same pipeline. A filled cell means the document exists in the product brain. The gaps are the work queue, and they are the reason three of these four have no brief yet.</p>
+  <div class="scroll"><table class="ready">
+    <tr>
+      <th class="rl">Product</th>
+      <th>01<span>Avatars</span></th><th>02<span>Voice</span></th><th>03<span>Landscape</span></th><th>04<span>Gaps</span></th>
+      <th>05<span>Position</span></th><th>06<span>Identity</span></th><th>07<span>Claims</span></th><th>08<span>Angles</span></th>
+      <th class="rl">Assets</th><th class="rl">Brief</th><th class="rl">Lander</th>
+    </tr>
+    <tr>
+      <td class="rn">Box Cutter<span>launched</span></td>
+      <td class="on">&#9679;</td><td class="on">&#9679;</td><td class="on">&#9679;</td><td class="on">&#9679;</td>
+      <td class="on">&#9679;</td><td class="off">&#9675;</td><td class="on">&#9679;</td><td class="on">&#9679;</td>
+      <td class="rv">32 built</td><td class="rv"><a href="/briefs/electric-scissors/">live</a></td><td class="rv">yes</td>
+    </tr>
+    <tr>
+      <td class="rn">Dryer Vent Kit<span>next up</span></td>
+      <td class="on">&#9679;</td><td class="on">&#9679;</td><td class="on">&#9679;</td><td class="on">&#9679;</td>
+      <td class="on">&#9679;</td><td class="on">&#9679;</td><td class="on">&#9679;</td><td class="off">&#9675;</td>
+      <td class="rv">35 built</td><td class="rv"><span class="none">queued</span></td><td class="rv">no</td>
+    </tr>
+    <tr>
+      <td class="rn">Knee and Shin<span>grip test pending</span></td>
+      <td class="on">&#9679;</td><td class="on">&#9679;</td><td class="on">&#9679;</td><td class="on">&#9679;</td>
+      <td class="on">&#9679;</td><td class="off">&#9675;</td><td class="on">&#9679;</td><td class="off">&#9675;</td>
+      <td class="rv">20 built</td><td class="rv"><span class="none">queued</span></td><td class="rv">yes</td>
+    </tr>
+    <tr>
+      <td class="rn">Dust Mask<span>held</span></td>
+      <td class="on">&#9679;</td><td class="on">&#9679;</td><td class="on">&#9679;</td><td class="on">&#9679;</td>
+      <td class="on">&#9679;</td><td class="off">&#9675;</td><td class="on">&#9679;</td><td class="off">&#9675;</td>
+      <td class="rv">20 built</td><td class="rv"><span class="none">queued</span></td><td class="rv">no</td>
+    </tr>
+  </table></div>
+  <p class="rnote"><b>Reading the gaps.</b> The box cutter has no <code>06</code> because it is a finished product with no label surface, so that step does not apply. The other three are missing <code>08</code>, the angle sheet, which is what a brief is written from. That is the single blocker on the next three briefs.</p>
 </section>
 
 <section>
