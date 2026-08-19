@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridge &amp; Cellar Launch Tracker</title>
+<meta name="description" content="Live launch state for Ridge & Cellar Co. What is running, what is blocking it, and what has not been measured yet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#14181c; --panel:#1b2126; --panel2:#20272d; --rule:#2e373f;
+  --paper:#e8e6e1; --dim:#8a949c; --faint:#5d666e;
+  --amber:#e07b16; --amber-dk:#b8560a;
+  --live:#7fa863; --hold:#d4a03c; --stop:#c4562e;
+  --head:"Oswald","Arial Narrow",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"IBM Plex Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--paper);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--head);text-transform:uppercase;margin:0;letter-spacing:.01em;font-weight:700}
+.lab{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+
+/* ── job sheet header ── */
+header{border-bottom:2px solid var(--amber);padding:26px 0 0}
+.sheet-top{display:flex;flex-wrap:wrap;gap:18px 40px;align-items:flex-end;padding-bottom:20px}
+.sheet-id{flex:1 1 auto;min-width:260px}
+.sheet-id .lab{display:block;margin-bottom:10px}
+h1{font-size:clamp(30px,4.6vw,52px);line-height:.94;color:#fff}
+h1 em{font-style:normal;color:var(--amber)}
+.stamp{
+  border:2px solid var(--live);color:var(--live);font-family:var(--head);font-weight:700;
+  text-transform:uppercase;font-size:15px;letter-spacing:.08em;padding:7px 16px;
+  transform:rotate(-3deg);display:inline-flex;align-items:center;gap:9px;white-space:nowrap;
+}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--live);animation:p 2.4s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+.meta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid var(--rule)}
+.meta{padding:14px 18px 15px;border-right:1px solid var(--rule)}
+.meta:last-child{border-right:0}
+.meta .lab{display:block;margin-bottom:6px}
+.meta b{font-family:var(--head);font-weight:600;font-size:21px;color:#fff;display:block;line-height:1}
+.meta small{font-family:var(--mono);font-size:11.5px;color:var(--dim);display:block;margin-top:5px}
+
+section{padding:34px 0 0}
+.shead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:9px;margin-bottom:16px}
+.shead h2{font-size:19px;color:#fff}
+.shead .lab{margin-left:auto}
+
+/* ── ledger ── */
+.ledger{width:100%;border-collapse:collapse;font-size:14px}
+.ledger th{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
+  text-align:left;padding:0 12px 9px;font-weight:600;border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+.ledger td{padding:13px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+.ledger tr:last-child td{border-bottom:0}
+.ledger .nm{font-family:var(--head);font-weight:600;font-size:17px;text-transform:uppercase;color:#fff;line-height:1.1}
+.ledger .sub{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:4px;display:block}
+.num{font-family:var(--mono);font-size:13.5px;color:var(--paper);white-space:nowrap}
+.num s{color:var(--faint);text-decoration:line-through;margin-left:6px}
+.mark{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1px solid;white-space:nowrap;display:inline-block}
+.m-live{color:var(--live);border-color:var(--live)}
+.m-hold{color:var(--hold);border-color:var(--hold)}
+.m-stop{color:var(--stop);border-color:var(--stop)}
+.row-lead td{background:linear-gradient(90deg,rgba(224,123,22,.12),transparent 60%)}
+.row-lead .nm{color:var(--amber)}
+
+/* ── blockers ── */
+.blockers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.blk{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--stop);padding:16px 18px 18px}
+.blk--warn{border-left-color:var(--hold)}
+.blk h3{font-size:15px;color:#fff;margin-bottom:7px;line-height:1.15}
+.blk p{margin:0;font-size:14px;color:var(--dim);line-height:1.5}
+.blk .who{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);display:block;margin-top:10px}
+.blk code{font-family:var(--mono);font-size:12.5px;color:var(--paper);background:var(--ground);padding:1px 5px;border-radius:2px}
+
+/* ── counts ── */
+.counts{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.cnt{background:var(--panel);padding:16px 16px 18px}
+.cnt b{font-family:var(--head);font-weight:700;font-size:34px;color:#fff;display:block;line-height:.9}
+.cnt span{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);display:block;margin-top:8px}
+.cnt em{font-style:normal;font-size:12.5px;color:var(--dim);display:block;margin-top:6px;font-family:var(--sans)}
+
+/* ── no data ── */
+.nodata{border:1px dashed var(--rule);padding:22px 22px 24px;text-align:center;background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,.012) 10px,rgba(255,255,255,.012) 20px)}
+.nodata h3{font-size:17px;color:var(--dim);margin-bottom:8px}
+.nodata p{margin:0 auto;max-width:60ch;color:var(--faint);font-size:14px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:18px}
+.mt{background:var(--panel);padding:14px 14px 16px;text-align:center}
+.mt b{font-family:var(--head);font-weight:700;font-size:22px;color:var(--faint);display:block;line-height:1}
+.mt span{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);display:block;margin-top:7px}
+
+/* ── next ── */
+.next{list-style:none;margin:0;padding:0;counter-reset:n}
+.next li{counter-increment:n;display:grid;grid-template-columns:34px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--rule);align-items:start}
+.next li:last-child{border-bottom:0}
+.next li::before{content:counter(n,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--amber);padding-top:2px;grid-column:1}
+.next li>*{grid-column:2}
+.next b{color:#fff;font-weight:600;display:block;font-size:15px}
+.next span{color:var(--dim);font-size:14px}
+
+footer{margin:40px 0 60px;padding-top:16px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:8px 26px}
+footer span{font-family:var(--mono);font-size:11px;color:var(--faint)}
+a{color:var(--amber)}
+.scroll{overflow-x:auto}
+@media (max-width:640px){
+  .stamp{transform:none}
+  .ledger th:nth-child(4),.ledger td:nth-child(4){display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="sheet-top">
+    <div class="sheet-id">
+      <span class="lab">Ridge &amp; Cellar Co &nbsp;/&nbsp; Launch Tracker</span>
+      <h1>Cordless<br>Electric <em>Box Cutter</em></h1>
+    </div>
+    <div class="stamp"><span class="pulse"></span> Launched</div>
+  </div>
+  <div class="meta-row">
+    <div class="meta"><span class="lab">Elapsed</span><b id="elapsed">Day 0</b><small id="since">launched today</small></div>
+    <div class="meta"><span class="lab">Store</span><b>4 SKUs</b><small>all active</small></div>
+    <div class="meta"><span class="lab">Lead price</span><b>$59.99</b><small>vs $99.99, 40% off</small></div>
+    <div class="meta"><span class="lab">Creative built</span><b>72</b><small>statics and modules</small></div>
+    <div class="meta"><span class="lab">Orders</span><b>0</b><small>none yet</small></div>
+  </div>
+</header>
+
+<section>
+  <div class="shead"><h2>The shelf</h2><span class="lab">live from Shopify, 19 Aug</span></div>
+  <div class="scroll"><table class="ledger">
+    <tr><th>Product</th><th>State</th><th>Price</th><th>Gallery</th><th>Page</th></tr>
+    <tr class="row-lead">
+      <td><span class="nm">Cordless Electric Box Cutter</span><span class="sub">the launch product</span></td>
+      <td><span class="mark m-live">Active</span></td>
+      <td class="num">$59.99 <s>$99.99</s><br><span class="sub">2+1 free at $119.98</span></td>
+      <td class="num">6 images</td>
+      <td><a href="https://ridgeandcellarco.com/products/cuts-cardboard-and-carpet-without-wrecking-your-hands-cordless-cutter">Open</a></td>
+    </tr>
+    <tr>
+      <td><span class="nm">Dryer Vent Cleaner Kit</span><span class="sub">deepest asset set</span></td>
+      <td><span class="mark m-live">Active</span></td>
+      <td class="num">$29.99 <s>$49.99</s></td>
+      <td class="num">13 images</td>
+      <td><a href="https://ridgeandcellarco.com/products/turn-your-vacuum-into-a-dryer-vent-cleaner-flat-reach-attachment-kit">Open</a></td>
+    </tr>
+    <tr>
+      <td><span class="nm">Knee and Shin Shells</span><span class="sub">grip test outstanding</span></td>
+      <td><span class="mark m-live">Active</span></td>
+      <td class="num">$29.99 <s>$49.99</s></td>
+      <td class="num">8 images</td>
+      <td><a href="https://ridgeandcellarco.com/products/knee-and-shin-protection-that-stays-put-while-you-crawl-hard-shell-pads">Open</a></td>
+    </tr>
+    <tr>
+      <td><span class="nm">Dust and Pollen Mask</span><span class="sub">do not launch ads on this</span></td>
+      <td><span class="mark m-hold">Hold</span></td>
+      <td class="num">$29.99 <s>$49.99</s></td>
+      <td class="num">7 images</td>
+      <td><a href="https://ridgeandcellarco.com/products/keeps-dust-and-pollen-out-of-the-air-you-breathe-reusable-dust-mask">Open</a></td>
+    </tr>
+  </table></div>
+</section>
+
+<section>
+  <div class="shead"><h2>Blocking the launch</h2><span class="lab">fix before spend</span></div>
+  <div class="blockers">
+    <div class="blk">
+      <h3>No shipping policy</h3>
+      <p>The store takes orders and <code>/policies/shipping-policy</code> returns 404. It needs the business address, which is the only value still missing from the store config.</p>
+      <span class="who">Operator &middot; blocks paid traffic</span>
+    </div>
+    <div class="blk">
+      <h3>Checkout contradicts the site</h3>
+      <p>Live rates are <code>$8.00</code> and free at <code>$70</code>. The announcement bar and policies say <code>$9.95</code> and free at <code>$79</code>. The API refuses this edit, so it is a manual fix in Settings, Shipping and delivery.</p>
+      <span class="who">Operator &middot; two minute admin edit</span>
+    </div>
+    <div class="blk">
+      <h3>Warranty says two things</h3>
+      <p>The product page and two lifestyle assets promise a <b>lifetime warranty</b>. The refund policy and store config say <b>60 days</b>. Support will get caught between them.</p>
+      <span class="who">Operator decision</span>
+    </div>
+    <div class="blk blk--warn">
+      <h3>Express rate is undescribed</h3>
+      <p>A $15 Express option is live at checkout and appears in no policy. Remove it or write it in.</p>
+      <span class="who">Operator</span>
+    </div>
+    <div class="blk blk--warn">
+      <h3>Ad copy not written</h3>
+      <p>72 creatives are built, but every ad needs unique primary text, headline and description, including across personas. On-image copy is done. Ad-level copy is not.</p>
+      <span class="who">Next build</span>
+    </div>
+    <div class="blk blk--warn">
+      <h3>No 9:16 cuts</h3>
+      <p>Everything is 1:1. Statics ship 1:1 or 9:16 only, and placements will want both.</p>
+      <span class="who">Next build</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><h2>Creative on hand</h2><span class="lab">built, not yet running</span></div>
+  <div class="counts">
+    <div class="cnt"><b>54</b><span>Angle matrix</span><em>9 angles x 6 layouts</em></div>
+    <div class="cnt"><b>9</b><span>Angles locked</span><em>all avatar grounded</em></div>
+    <div class="cnt"><b>6</b><span>Sub-mechanics</span><em>one per reference</em></div>
+    <div class="cnt"><b>8</b><span>Lifestyle</span><em>badge hero style</em></div>
+    <div class="cnt"><b>8</b><span>Modules</span><em>benefit, UGC, callout, quote</em></div>
+    <div class="cnt"><b>0</b><span>CF numbers</span><em>assigned when live</em></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><h2>Performance</h2><span class="lab">nothing to read yet</span></div>
+  <div class="nodata">
+    <h3>No spend, no sessions, no orders</h3>
+    <p>The store went live today and nothing has run against it. These fill in once traffic starts. Read soft and hard metrics over five to seven days before drawing a conclusion from any of them.</p>
+    <div class="metrics">
+      <div class="mt"><b>&mdash;</b><span>Spend</span></div>
+      <div class="mt"><b>&mdash;</b><span>Sessions</span></div>
+      <div class="mt"><b>&mdash;</b><span>Orders</span></div>
+      <div class="mt"><b>&mdash;</b><span>CVR</span></div>
+      <div class="mt"><b>&mdash;</b><span>AOV</span></div>
+      <div class="mt"><b>&mdash;</b><span>ROAS</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><h2>Next</h2><span class="lab">in order</span></div>
+  <ol class="next">
+    <li><b>Business address into the store config</b><span>Unblocks the shipping policy, which is the only thing standing between this store and legitimate paid traffic.</span></li>
+    <li><b>Fix the shipping rates in the admin</b><span>$9.95 and free at $79, so the checkout stops contradicting the announcement bar.</span></li>
+    <li><b>Settle lifetime versus 60 days</b><span>Then make the page, the policy and the assets agree.</span></li>
+    <li><b>Write ad level copy</b><span>Unique primary text, headline and description per ad. No reuse across personas.</span></li>
+    <li><b>Launch Dana and Marcus first</b><span>Ranked one and two in the corpus. Ruth third, and her funnel must show the safety lock being operated.</span></li>
+    <li><b>Assign CF numbers on launch</b><span>The prefix is the angle, not the mechanic. Rename the assets so results read back to the concept.</span></li>
+  </ol>
+</section>
+
+<footer>
+  <span>Ridge &amp; Cellar Co</span>
+  <span>Launched 19 August 2026</span>
+  <span>Product state read live from Shopify</span>
+  <span>Metrics blank until traffic runs</span>
+</footer>
+</div>
+
+<script>
+  var launched = new Date("2026-08-19T00:00:00");
+  function tick(){
+    var ms = Date.now() - launched.getTime();
+    var d = Math.max(0, Math.floor(ms / 86400000));
+    var h = Math.max(0, Math.floor(ms / 3600000));
+    document.getElementById("elapsed").textContent = "Day " + d;
+    document.getElementById("since").textContent = d === 0 ? h + " hours in" : "since 19 Aug";
+  }
+  tick(); setInterval(tick, 60000);
+</script>
+</body>
+</html>
